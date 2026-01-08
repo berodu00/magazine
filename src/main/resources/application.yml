@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: sabo-system
+  
+  datasource:
+    url: jdbc:postgresql://localhost:5435/sabosystem
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
+      data-locations: classpath:data.sql
+
+security:
+  jwt:
+    secret: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+    expiration: 3600000 # 1 hour
+    refresh-token-expiration: 604800000 # 7 days
+
+file:
+  upload-dir: uploads
