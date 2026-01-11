@@ -98,6 +98,7 @@ CREATE TABLE IF NOT EXISTS events (
     thumbnail_url VARCHAR(500),
     start_date TIMESTAMP NOT NULL,
     end_date TIMESTAMP NOT NULL,
+    location VARCHAR(255),
     is_active BOOLEAN DEFAULT TRUE,
     winner_count INT DEFAULT 0,
     winners_announced BOOLEAN DEFAULT FALSE,
@@ -106,6 +107,8 @@ CREATE TABLE IF NOT EXISTS events (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+ALTER TABLE events ADD COLUMN IF NOT EXISTS location VARCHAR(255);
 
 CREATE INDEX IF NOT EXISTS idx_events_dates ON events(start_date, end_date);
 CREATE INDEX IF NOT EXISTS idx_events_active ON events(is_active);

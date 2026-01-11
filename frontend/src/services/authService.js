@@ -24,7 +24,13 @@ const authService = {
     },
 
     getCurrentUser: () => {
-        return JSON.parse(localStorage.getItem('user'));
+        try {
+            return JSON.parse(localStorage.getItem('user'));
+        } catch (error) {
+            console.error('Error parsing user from localStorage:', error);
+            localStorage.removeItem('user'); // Clean up invalid data
+            return null;
+        }
     },
 
     getToken: () => {

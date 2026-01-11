@@ -54,7 +54,7 @@
 - **상태 관리**: React Context API / Zustand
 - **라우팅**: React Router v6
 - **HTTP 클라이언트**: Axios
-- **UI 라이브러리**: Tailwind CSS (고려사항: shadcn/ui)
+- **UI 라이브러리**: Tailwind CSS v4 (Design System Tokens 적용)
 - **폼 관리**: React Hook Form
 - **에디터**: TinyMCE 또는 CKEditor (HTML 모드 지원)
 
@@ -64,6 +64,12 @@
 
 ### 2.4 Infrastructure
 - **개발 환경**: 로컬 PC
+- **Network Configuration**:
+  - **Frontend**: http://localhost:5173
+    - Proxy: Must use `http://127.0.0.1:8080` (IPv4) to avoid IPv6 connection issues (`ECONNREFUSED ::1`).
+    - API Client: Set `baseURL: '/api'` in Axios instance.
+  - **Backend**: http://localhost:8080 (JDBC Encoding: UTF-8)
+  - **Database**: Port 5435 (Docker)
 - **컨테이너**: Docker (PostgreSQL 서비스)
 - **파일 스토리지**: 로컬 파일 시스템 (`/uploads` 디렉토리)
 
@@ -300,6 +306,7 @@ CREATE TABLE events (
     thumbnail_url VARCHAR(500),
     start_date TIMESTAMP NOT NULL,
     end_date TIMESTAMP NOT NULL,
+    location VARCHAR(255),  -- 장소 (new)
     is_active BOOLEAN DEFAULT TRUE,
     winner_count INT DEFAULT 0,  -- 당첨자 수
     winners_announced BOOLEAN DEFAULT FALSE,
@@ -778,6 +785,57 @@ Authorization: Bearer {accessToken}
 
 ---
 
+### 3.X 소셜 콘텐츠 상세 API
+
+#### GET /api/social/{id}
+**설명:** 소셜 콘텐츠 단일 상세 조회
+
+**Response (200 OK):**
+```json
+{
+  "contentId": 1,
+  "platform": "YOUTUBE",
+  "externalId": "dQw4w9WgXcQ",
+  "title": "2024년 고려아연 지속가능경영보고서 발간",
+  "description": "설명 텍스트...",
+  "thumbnailUrl": "...",
+  "linkUrl": "...",
+  "publishedAt": "2024-01-15T09:00:00"
+}
+```
+
+---
+
+### 6.X 뉴스레터 API
+
+#### POST /api/newsletters
+**설명:** 뉴스레터 발송 (관리자 전용)
+
+**Request Header:**
+```
+Authorization: Bearer {accessToken}
+```
+
+**Request:**
+```json
+{
+  "subject": "1월 3주차 고려아연 사보",
+  "articleIds": [1, 5, 8, 12, 15, 20]  // 6개 게시물 ID 선택
+}
+```
+
+**Response (200 OK):**
+```json
+{
+  "newsletterId": 1,
+  "recipientCount": 1500,
+  "sentAt": "2024-01-20T10:00:00",
+  "message": "뉴스레터가 1500명에게 발송되었습니다."
+}
+```
+
+---
+
 ### 6.3 카테고리 API
 
 #### GET /api/categories
@@ -978,6 +1036,7 @@ Authorization: Bearer {accessToken}
   "thumbnailUrl": "/uploads/events/2024/01/event_1.jpg",
   "startDate": "2024-01-01T00:00:00",
   "endDate": "2024-01-31T23:59:59",
+  "location": "본사 대강당",
   "isActive": true,
   "winnerCount": 5,
   "winnersAnnounced": false,
@@ -1358,6 +1417,7 @@ public class NewsletterService {
 - **리프레시 토큰**: 7일 유효, 액세스 토큰 갱신 전용
 
 #### 권한 체크
+ - **PUBLIC**: 소셜 콘텐츠 조회 (`/api/social/**`)
 - **USER**: 읽기, 반응, 별점, 이벤트 참여, 아이디어 제안
 - **ADMIN**: 위 모든 권한 + CRUD 작업 (게시물, 이벤트, 팝업, 배너 등)
 

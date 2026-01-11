@@ -1,0 +1,43 @@
+﻿./gradlew : D:\berodu\SORIN\project\Magazine\src\main\java\com
+\koreazinc\sabosystem\service\EventService.java:81: error: met
+hod update in class Event cannot be applied to given types;
+위치 줄:1 문자:1
++ ./gradlew build > build_log.txt 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (D:\berodu\SORIN. 
+   ..to given types;:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+        event.update(
+             ^
+  required: String,String,String,LocalDateTime,LocalDateTime,I
+nteger,String,Boolean
+
+> Task :compileJava
+  found:    String,String,String,LocalDateTime,LocalDateTime,I
+nteger,Boolean
+  reason: actual and formal argument lists differ in length
+D:\berodu\SORIN\project\Magazine\src\main\java\com\koreazinc\s
+abosystem\service\EventService.java:88: error: incompatible ty
+pes: Boolean cannot be converted to String
+                dto.getIsActive());
+                               ^
+Note: Some messages have been simplified; recompile with -Xdia
+gs:verbose to get full output
+2 errors
+
+> Task :compileJava FAILED
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler error output for detail
+s.
+
+* Try:
+> Run with --info option to get more log output.
+> Run with --scan to get full insights.
+
+BUILD FAILED in 7s
+1 actionable task: 1 executed

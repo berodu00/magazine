@@ -1,0 +1,11 @@
+{
+    "categoryId": 1,
+    "title": "Hashtag Test Article",
+    "content": "<div>Testing hashtags</div>",
+    "summary": "Summary",
+    "isPublished": true,
+    "hashtags": [
+        "TestTag1",
+        "TestTag2"
+    ]
+}

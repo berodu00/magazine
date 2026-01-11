@@ -49,12 +49,16 @@ public class JwtTokenProvider {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
 
+        // CustomUserDetails로 캐스팅하여 userId 추출
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+
         long now = (new Date()).getTime();
         Date validity = new Date(now + accessExpiration);
 
         return Jwts.builder()
                 .subject(authentication.getName())
                 .claim(AUTHORITIES_KEY, authorities)
+                .claim("userId", userDetails.getUserId()) // userId 추가
                 .issuedAt(new Date())
                 .expiration(validity)
                 .signWith(key)
@@ -87,7 +91,26 @@ public class JwtTokenProvider {
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
 
-        UserDetails principal = new User(claims.getSubject(), "", authorities);
+        // Claims에서 userId 추출
+        // Claims에서 userId 추출
+        Object userIdObj = claims.get("userId");
+        Long userId = null;
+        if (userIdObj instanceof Number) {
+            userId = ((Number) userIdObj).longValue();
+        } else if (userIdObj instanceof String) {
+            try {
+                userId = Long.parseLong((String) userIdObj);
+            } catch (NumberFormatException e) {
+                log.warn("Invalid userId format: {}", userIdObj);
+            }
+        }
+        log.info("Extracted userId from token: {} (Type: {})", userId,
+                (userIdObj != null ? userIdObj.getClass().getName() : "null"));
+        log.info("Extracted userId from token: {}", userId);
+        String role = claims.get(AUTHORITIES_KEY).toString().split(",")[0]; // 첫 번째 권한 사용
+
+        // CustomUserDetails 생성
+        CustomUserDetails principal = new CustomUserDetails(userId, claims.getSubject(), role);
 
         return new UsernamePasswordAuthenticationToken(principal, "", authorities);
     }

@@ -1,0 +1,10 @@
+{
+    "categoryId": 1,
+    "title": "Debug Test",
+    "content": "<p>Content</p>",
+    "summary": "Summary",
+    "isPublished": true,
+    "hashtags": [
+        "test"
+    ]
+}
