@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../../services/api';
+import ImageUploader from '../../components/common/ImageUploader';
 
 const EventCreatePage = () => {
     const navigate = useNavigate();
@@ -121,15 +122,11 @@ const EventCreatePage = () => {
                     </div>
 
                     <div className="md:col-span-2">
-                        <label className="block text-sm font-medium text-gray-700 mb-2">썸네일 URL *</label>
-                        <input
-                            type="text"
-                            name="thumbnailUrl"
-                            value={formData.thumbnailUrl}
-                            onChange={handleChange}
-                            className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                            placeholder="https://example.com/image.jpg"
-                            required
+                        <label className="block text-sm font-medium text-gray-700 mb-2">이벤트 썸네일 *</label>
+                        <ImageUploader
+                            currentImage={formData.thumbnailUrl}
+                            onUploadSuccess={(fileData) => setFormData(prev => ({ ...prev, thumbnailUrl: fileData.url }))}
+                            category="events"
                         />
                     </div>
 

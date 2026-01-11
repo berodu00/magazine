@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { popupService } from '../../services/popupService';
 import ImageUploader from '../../components/common/ImageUploader';
-import { fileService } from '../../services/fileService';
 import HtmlEditor from '../../components/editor/HtmlEditor';
 
 const PopupManagePage = () => {
@@ -115,12 +115,12 @@ const PopupManagePage = () => {
         <div className="p-6">
             <div className="flex justify-between items-center mb-6">
                 <h1 className="text-2xl font-bold text-gray-800">팝업 관리</h1>
-                <button
-                    onClick={openCreateModal}
+                <Link
+                    to="/admin/popups/create"
                     className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium"
                 >
                     + 새 팝업 등록
-                </button>
+                </Link>
             </div>
 
             {/* List */}

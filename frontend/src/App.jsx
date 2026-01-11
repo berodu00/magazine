@@ -19,7 +19,9 @@ import IdeaManagePage from './pages/admin/IdeaManagePage';
 import MyIdeaPage from './pages/user/MyIdeaPage';
 import IdeaFloatingButton from './components/user/IdeaFloatingButton';
 import PopupManagePage from './pages/admin/PopupManagePage';
+import PopupCreatePage from './pages/admin/PopupCreatePage';
 import BannerManagePage from './pages/admin/BannerManagePage';
+import BannerCreatePage from './pages/admin/BannerCreatePage';
 import DashboardPage from './pages/admin/DashboardPage';
 import NewsletterCreatePage from './pages/admin/NewsletterCreatePage';
 import SocialPage from './pages/social/SocialPage';
@@ -124,7 +126,9 @@ function App() {
             <Route path="ideas" element={<IdeaManagePage />} />
             <Route path="newsletters" element={<NewsletterCreatePage />} />
             <Route path="popups" element={<PopupManagePage />} />
+            <Route path="popups/create" element={<PopupCreatePage />} />
             <Route path="banners" element={<BannerManagePage />} />
+            <Route path="banners/create" element={<BannerCreatePage />} />
             <Route path="dashboard" element={<DashboardPage />} />
           </Route>
 

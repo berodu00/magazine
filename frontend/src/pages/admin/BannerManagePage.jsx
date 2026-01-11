@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { bannerService } from '../../services/bannerService';
 import ImageUploader from '../../components/common/ImageUploader';
 
@@ -42,7 +43,8 @@ const BannerManagePage = () => {
     };
 
     const handleImageUpload = (fileData) => {
-        setFormData(prev => ({ ...prev, imageUrl: fileData.filePath }));
+        // Backend returns { url: "/uploads/..." }
+        setFormData(prev => ({ ...prev, imageUrl: fileData.url }));
     };
 
     const openCreateModal = () => {
@@ -96,12 +98,12 @@ const BannerManagePage = () => {
         <div className="p-6">
             <div className="flex justify-between items-center mb-6">
                 <h1 className="text-2xl font-bold text-gray-800">배너 관리</h1>
-                <button
-                    onClick={openCreateModal}
+                <Link
+                    to="/admin/banners/create"
                     className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium"
                 >
                     + 새 배너 등록
-                </button>
+                </Link>
             </div>
 
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
