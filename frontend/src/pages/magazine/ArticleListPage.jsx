@@ -56,8 +56,8 @@ const ArticleListPage = () => {
             <Header />
 
             <main className="max-w-[1200px] mx-auto px-6 py-12 flex-1 w-full">
-                <div className="mb-8">
-                    <h1 className="text-3xl font-bold text-gray-900 mb-4">웹진</h1>
+                <div className="mb-8 flex items-baseline gap-4">
+                    <h1 className="text-3xl font-bold text-gray-900">웹진</h1>
                     <p className="text-gray-600">고려아연의 다양한 이야기를 전해드립니다.</p>
                 </div>
 

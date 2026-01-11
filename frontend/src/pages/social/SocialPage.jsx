@@ -43,7 +43,7 @@ const SocialPage = () => {
     const tabs = [
         { id: 'youtube', label: 'YouTube', icon: '▶' },
         { id: 'instagram', label: 'Instagram', icon: '📷' },
-        { id: 'homepage', label: 'Press', icon: '📰' }
+        { id: 'homepage', label: '최신 소식', icon: '📰' }
     ];
 
     return (
@@ -52,8 +52,8 @@ const SocialPage = () => {
 
             <main className="max-w-[1200px] mx-auto px-6 py-12 flex-1 w-full">
                 {/* Header */}
-                <div className="mb-8">
-                    <h1 className="text-3xl font-bold text-gray-900 mb-4">소셜 허브</h1>
+                <div className="mb-8 flex items-baseline gap-4">
+                    <h1 className="text-3xl font-bold text-gray-900">소셜 허브</h1>
                     <p className="text-gray-600">고려아연의 최신 소셜 미디어 소식과 보도자료를 확인하세요.</p>
                 </div>
 
@@ -64,7 +64,7 @@ const SocialPage = () => {
                             key={tab.id}
                             onClick={() => setActiveTab(tab.id)}
                             className={`
-                                flex items-center px-6 py-2.5 rounded-lg text-sm font-medium transition-all duration-200
+                                flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200
                                 ${activeTab === tab.id
                                     ? 'bg-blue-600 text-white shadow-md'
                                     : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'

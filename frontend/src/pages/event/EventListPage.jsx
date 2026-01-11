@@ -32,8 +32,8 @@ const EventListPage = () => {
             <Header />
 
             <main className="max-w-[1200px] mx-auto px-6 py-12 flex-1 w-full">
-                <div className="mb-8">
-                    <h1 className="text-3xl font-bold text-gray-900 mb-4">Event</h1>
+                <div className="mb-8 flex items-baseline gap-4">
+                    <h1 className="text-3xl font-bold text-gray-900">Event</h1>
                     <p className="text-gray-600">진행 중인 다양한 이벤트에 참여해보세요.</p>
                 </div>
 

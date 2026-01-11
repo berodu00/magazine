@@ -10,29 +10,32 @@ import RollingBanner from '../../components/common/RollingBanner';
 import HashtagCloud from '../../components/user/HashtagCloud';
 import YouTubeGrid from '../../components/social/YouTubeGrid';
 import InstagramGrid from '../../components/social/InstagramGrid';
+import HomepageGrid from '../../components/social/HomepageGrid';
 
 import ArticleList from '../../components/user/ArticleList';
 
 const MainPage = () => {
     const [latestArticles, setLatestArticles] = useState([]);
     const [recentEvents, setRecentEvents] = useState([]);
-    const [socialContent, setSocialContent] = useState({ youtube: [], instagram: [] });
+    const [socialContent, setSocialContent] = useState({ youtube: [], instagram: [], homepage: [] });
     const [activeSocialTab, setActiveSocialTab] = useState('youtube');
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [articlesData, eventsData, youtubeData, instagramData] = await Promise.all([
+                const [articlesData, eventsData, youtubeData, instagramData, homepageData] = await Promise.all([
                     articleService.getArticles(0, 3),
                     eventService.getEvents(0, 3),
-                    socialService.getYouTubeContent(0, 3), // 3 items for grid
-                    socialService.getInstagramContent(0, 4) // 4 items for grid
+                    socialService.getYouTubeContent(0, 3),
+                    socialService.getInstagramContent(0, 4),
+                    socialService.getHomepageContent(0, 3)
                 ]);
                 setLatestArticles(articlesData.content || []);
                 setRecentEvents(eventsData.content || []);
                 setSocialContent({
                     youtube: youtubeData.content || [],
-                    instagram: instagramData.content || []
+                    instagram: instagramData.content || [],
+                    homepage: homepageData.content || []
                 });
             } catch (error) {
                 console.error('Failed to fetch data:', error);
@@ -53,7 +56,10 @@ const MainPage = () => {
                 {/* Latest Articles Section */}
                 <section className="max-w-[1200px] mx-auto px-6 py-16">
                     <div className="flex justify-between items-end mb-8">
-                        <h2 className="text-2xl font-bold text-gray-900">최신 사보</h2>
+                        <div className="flex items-baseline gap-4">
+                            <h2 className="text-2xl font-bold text-gray-900">웹진</h2>
+                            <p className="text-gray-600">고려아연의 다양한 이야기를 전해드립니다.</p>
+                        </div>
                         <Link to="/articles" className="text-primary hover:underline font-medium">
                             전체보기 →
                         </Link>
@@ -69,36 +75,54 @@ const MainPage = () => {
                             등록된 게시물이 없습니다.
                         </div>
                     )}
+
+                    {/* Hashtag Cloud - like webzine page */}
+                    <div className="mt-12">
+                        <HashtagCloud />
+                    </div>
                 </section>
 
                 {/* Social Hub Section */}
                 <section className="bg-gray-50 py-16">
                     <div className="max-w-[1200px] mx-auto px-6">
                         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4">
-                            <div>
-                                <h2 className="text-2xl font-bold text-gray-900 mb-4 md:mb-0">소셜 허브</h2>
+                            <div className="flex items-baseline gap-4">
+                                <h2 className="text-2xl font-bold text-gray-900">소셜 허브</h2>
+                                <p className="text-gray-600 hidden md:block">고려아연의 최신 소셜 미디어 소식</p>
                             </div>
 
                             <div className="flex items-center gap-4">
                                 {/* Tabs */}
-                                <div className="flex space-x-1 bg-white p-1 rounded-lg shadow-sm">
+                                <div className="flex space-x-1 bg-white p-1 rounded-xl shadow-sm border border-gray-100">
                                     <button
                                         onClick={() => setActiveSocialTab('youtube')}
-                                        className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all duration-200 ${activeSocialTab === 'youtube'
-                                            ? 'bg-red-600 text-white shadow-sm'
-                                            : 'text-gray-600 hover:bg-gray-100'
+                                        className={`flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${activeSocialTab === 'youtube'
+                                            ? 'bg-blue-600 text-white shadow-md'
+                                            : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
                                             }`}
                                     >
+                                        <span className="mr-2">▶</span>
                                         YouTube
                                     </button>
                                     <button
                                         onClick={() => setActiveSocialTab('instagram')}
-                                        className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all duration-200 ${activeSocialTab === 'instagram'
-                                            ? 'bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-500 text-white shadow-sm'
-                                            : 'text-gray-600 hover:bg-gray-100'
+                                        className={`flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${activeSocialTab === 'instagram'
+                                            ? 'bg-blue-600 text-white shadow-md'
+                                            : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
                                             }`}
                                     >
+                                        <span className="mr-2">📷</span>
                                         Instagram
+                                    </button>
+                                    <button
+                                        onClick={() => setActiveSocialTab('homepage')}
+                                        className={`flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${activeSocialTab === 'homepage'
+                                            ? 'bg-blue-600 text-white shadow-md'
+                                            : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                                            }`}
+                                    >
+                                        <span className="mr-2">📰</span>
+                                        최신 소식
                                     </button>
                                 </div>
                                 <Link to="/social" className="text-primary hover:underline font-medium text-sm hidden md:block">
@@ -109,11 +133,9 @@ const MainPage = () => {
 
                         {/* Social Content Grid */}
                         <div className="animate-fade-in">
-                            {activeSocialTab === 'youtube' ? (
-                                <YouTubeGrid contents={socialContent.youtube} />
-                            ) : (
-                                <InstagramGrid contents={socialContent.instagram} />
-                            )}
+                            {activeSocialTab === 'youtube' && <YouTubeGrid contents={socialContent.youtube} />}
+                            {activeSocialTab === 'instagram' && <InstagramGrid contents={socialContent.instagram} />}
+                            {activeSocialTab === 'homepage' && <HomepageGrid contents={socialContent.homepage} />}
                         </div>
 
                         <div className="mt-8 text-center md:hidden">
@@ -128,7 +150,10 @@ const MainPage = () => {
                 <section className="bg-white py-16 border-t border-gray-100">
                     <div className="max-w-[1200px] mx-auto px-6">
                         <div className="flex justify-between items-end mb-8">
-                            <h2 className="text-2xl font-bold text-gray-900">진행 중인 이벤트</h2>
+                            <div className="flex items-baseline gap-4">
+                                <h2 className="text-2xl font-bold text-gray-900">이벤트</h2>
+                                <p className="text-gray-600 hidden md:block">다양한 이벤트에 참여해보세요.</p>
+                            </div>
                             <Link to="/events" className="text-primary hover:underline font-medium">
                                 전체보기 →
                             </Link>
@@ -189,12 +214,6 @@ const MainPage = () => {
                     </div>
                 </section>
 
-                {/* Hashtag Cloud Section */}
-                <section className="bg-gray-50 py-16">
-                    <div className="max-w-[1200px] mx-auto px-6">
-                        <HashtagCloud />
-                    </div>
-                </section>
             </main>
 
             <Footer />
