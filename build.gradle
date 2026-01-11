@@ -39,5 +39,10 @@ dependencies {
 }
 
 tasks.named('test') {
-    useJUnitPlatform()
+	useJUnitPlatform()
+}
+
+// Disable plain JAR generation (only keep the executable boot JAR)
+jar {
+	enabled = false
 }
