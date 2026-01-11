@@ -16,6 +16,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import com.koreazinc.sabosystem.dto.IdeaDto;
+import com.koreazinc.sabosystem.entity.IdeaStatus;
+import com.koreazinc.sabosystem.repository.IdeaRepository;
+import com.koreazinc.sabosystem.repository.ReactionRepository;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -24,17 +31,43 @@ public class AnalyticsService {
     private final ArticleRepository articleRepository;
     private final EventRepository eventRepository;
     private final SocialContentRepository socialContentRepository;
-    // IdeaRepository will be added when needed
+    private final IdeaRepository ideaRepository;
+    private final ReactionRepository reactionRepository;
 
     public DashboardStatsDto getDashboardStats() {
+        // Fetch Category Distribution
+        List<Object[]> categoryCounts = articleRepository.countByCategory();
+        Map<String, Long> categoryMap = new HashMap<>();
+        for (Object[] result : categoryCounts) {
+            categoryMap.put((String) result[0], (Long) result[1]);
+        }
+
+        // Fetch Recent Ideas
+        List<IdeaDto.ListDto> recentIdeas = ideaRepository.findAll(
+                PageRequest.of(0, 5, Sort.by(Sort.Direction.DESC, "createdAt"))).getContent().stream()
+                .map(IdeaDto.ListDto::new).collect(Collectors.toList());
+
+        // Calculate Totals
+        long totalReactions = reactionRepository.count();
+        long totalIdeas = ideaRepository.count();
+        // Assuming comments are participants with comments in Event, but for now we use
+        // Reactions as proxy for participation
+        // or we could add EventParticipants count. Let's use Reactions + Ideas as
+        // "Engagement Actions"
+        long participationScore = totalReactions + totalIdeas;
+
         return DashboardStatsDto.builder()
                 .totalArticles(articleRepository.count())
                 .totalEvents(eventRepository.count())
-                .totalIdeas(0) // Pending IdeaRepository integration
+                .totalIdeas(totalIdeas)
                 .totalSocialContent(socialContentRepository.count())
+                .totalViews(articleRepository.getSumViewCount() != null ? articleRepository.getSumViewCount() : 0)
+                .participationRate(participationScore)
+                .pendingIdeas(ideaRepository.countByStatus(IdeaStatus.PENDING))
                 .topArticles(getTopArticles())
-                .visitorTrend(getMockVisitorTrend())
-                .categoryDistribution(new HashMap<>()) // Placeholder
+                .recentIdeas(recentIdeas)
+                .visitorTrend(getMockVisitorTrend()) // Keeping mock for now as per plan
+                .categoryDistribution(categoryMap)
                 .build();
     }
 

@@ -26,4 +26,12 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
     // 조회수 상위 5개 게시물
     List<Article> findTop5ByIsPublishedTrueOrderByViewCountDesc();
+
+    // 총 조회수 합계
+    @Query("SELECT SUM(a.viewCount) FROM Article a")
+    Long getSumViewCount();
+
+    // 카테고리별 게시물 수
+    @Query("SELECT a.category.name, COUNT(a) FROM Article a GROUP BY a.category.name")
+    List<Object[]> countByCategory();
 }

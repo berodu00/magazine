@@ -58,4 +58,8 @@ public class User {
         this.role = role;
         this.isActive = true;
     }
+
+    public void updatePassword(String password) {
+        this.password = password;
+    }
 }

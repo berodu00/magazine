@@ -1,5 +1,5 @@
 -- 0. 기존 데이터 초기화 (인코딩 문제 해결을 위한 초기화)
-TRUNCATE TABLE article_hashtags, articles, hashtags, categories, users, reactions, ratings, events, event_participants, popups, banners, social_contents, ideas, newsletters, newsletter_articles CASCADE;
+-- TRUNCATE TABLE article_hashtags, articles, hashtags, categories, users, reactions, ratings, events, event_participants, popups, banners, social_contents, ideas, newsletters, newsletter_articles CASCADE;
 
 -- 1. 관리자 및 사용자 계정 생성
 INSERT INTO users (email, password, name, department, role) VALUES

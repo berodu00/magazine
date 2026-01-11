@@ -100,7 +100,7 @@ const BannerManagePage = () => {
     };
 
     return (
-        <div className="p-6">
+        <div>
             <div className="flex justify-between items-center mb-6">
                 <h1 className="text-2xl font-bold text-gray-800">배너 관리</h1>
                 <Link
@@ -169,7 +169,7 @@ const BannerManagePage = () => {
             {/* Edit/Create Modal */}
             {isModalOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-                    <div className="bg-white rounded-xl shadow-2xl w-full max-w-lg">
+                    <div className="bg-white rounded-xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
                         <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50">
                             <h2 className="text-xl font-bold text-gray-900">
                                 {isEditing ? '배너 수정' : '새 배너 등록'}
@@ -178,20 +178,21 @@ const BannerManagePage = () => {
                         </div>
 
                         <form onSubmit={handleSubmit} className="p-6 space-y-6">
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">제목</label>
+                            <div className="space-y-2">
+                                <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider">배너 제목 *</label>
                                 <input
                                     type="text"
                                     name="title"
                                     value={formData.title}
                                     onChange={handleInputChange}
                                     required
-                                    className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                                    className="block w-full h-12 rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors px-4 text-base"
+                                    placeholder="배너 관리용 제목"
                                 />
                             </div>
 
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">배너 이미지</label>
+                            <div className="space-y-2">
+                                <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider">배너 이미지 *</label>
                                 <ImageUploader
                                     currentImage={formData.imageUrl}
                                     onUploadSuccess={handleImageUpload}
@@ -199,38 +200,43 @@ const BannerManagePage = () => {
                                 />
                             </div>
 
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">링크 URL</label>
+                            <div className="space-y-2">
+                                <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider">링크 URL</label>
                                 <input
                                     type="text"
                                     name="linkUrl"
                                     value={formData.linkUrl || ''}
                                     onChange={handleInputChange}
-                                    className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                                    className="block w-full h-12 rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors px-4 text-base"
+                                    placeholder="https://..."
                                 />
                             </div>
 
-                            <div className="flex gap-6">
-                                <div className="flex-1">
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">순서</label>
+                            <div className="grid grid-cols-2 gap-6">
+                                <div className="space-y-2">
+                                    <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider">정렬 순서</label>
                                     <input
                                         type="number"
                                         name="displayOrder"
                                         value={formData.displayOrder}
                                         onChange={handleInputChange}
-                                        className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                                        className="block w-full h-12 rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors px-4 text-base"
                                     />
                                 </div>
                                 <div className="flex items-center pt-6">
-                                    <input
-                                        type="checkbox"
-                                        name="isActive"
-                                        checked={formData.isActive}
-                                        onChange={handleInputChange}
-                                        className="w-5 h-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
-                                        id="isActive"
-                                    />
-                                    <label htmlFor="isActive" className="ml-2 text-sm text-gray-700">활성 상태</label>
+                                    <div className="flex items-center p-3 border border-gray-200 rounded-lg w-full h-12 bg-gray-50">
+                                        <input
+                                            type="checkbox"
+                                            name="isActive"
+                                            checked={formData.isActive}
+                                            onChange={handleInputChange}
+                                            className="w-5 h-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500 cursor-pointer"
+                                            id="isActiveModal"
+                                        />
+                                        <label htmlFor="isActiveModal" className="ml-3 text-sm font-bold text-gray-700 cursor-pointer select-none">
+                                            활성 상태
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
 
@@ -238,13 +244,13 @@ const BannerManagePage = () => {
                                 <button
                                     type="button"
                                     onClick={() => setIsModalOpen(false)}
-                                    className="px-5 py-2.5 text-gray-600 font-medium hover:bg-gray-100 rounded-lg transition-colors"
+                                    className="px-5 py-2.5 text-gray-600 font-medium hover:bg-gray-100 rounded-lg transition-colors h-11"
                                 >
                                     취소
                                 </button>
                                 <button
                                     type="submit"
-                                    className="px-5 py-2.5 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition-colors shadow-lg shadow-blue-100"
+                                    className="px-5 py-2.5 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition-colors shadow-lg shadow-blue-100 h-11"
                                 >
                                     {isEditing ? '수정 완료' : '배너 생성'}
                                 </button>

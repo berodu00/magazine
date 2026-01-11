@@ -54,13 +54,13 @@ const MainPage = () => {
                 <RollingBanner />
 
                 {/* Latest Articles Section */}
-                <section className="max-w-[1200px] mx-auto px-6 py-16">
-                    <div className="flex justify-between items-end mb-8">
-                        <div className="flex items-baseline gap-4">
+                <section className="max-w-[1200px] mx-auto px-6 py-10 md:py-16">
+                    <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 md:mb-8 gap-4">
+                        <div className="flex flex-col md:flex-row md:items-baseline gap-2 md:gap-4">
                             <h2 className="text-2xl font-bold text-gray-900">웹진</h2>
-                            <p className="text-gray-600">고려아연의 다양한 이야기를 전해드립니다.</p>
+                            <p className="text-gray-600 text-sm md:text-base">고려아연의 다양한 이야기를 전해드립니다.</p>
                         </div>
-                        <Link to="/articles" className="text-primary hover:underline font-medium">
+                        <Link to="/articles" className="text-primary hover:underline font-medium text-sm md:text-base self-end md:self-auto">
                             전체보기 →
                         </Link>
                     </div>
@@ -83,20 +83,20 @@ const MainPage = () => {
                 </section>
 
                 {/* Social Hub Section */}
-                <section className="bg-gray-50 py-16">
+                <section className="bg-gray-50 py-10 md:py-16">
                     <div className="max-w-[1200px] mx-auto px-6">
-                        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4">
-                            <div className="flex items-baseline gap-4">
+                        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 md:mb-8 gap-4">
+                            <div className="flex flex-col md:flex-row md:items-baseline gap-2 md:gap-4">
                                 <h2 className="text-2xl font-bold text-gray-900">소셜 허브</h2>
                                 <p className="text-gray-600 hidden md:block">고려아연의 최신 소셜 미디어 소식</p>
                             </div>
 
-                            <div className="flex items-center gap-4">
+                            <div className="flex flex-col md:flex-row items-end md:items-center gap-4 w-full md:w-auto">
                                 {/* Tabs */}
-                                <div className="flex space-x-1 bg-white p-1 rounded-xl shadow-sm border border-gray-100">
+                                <div className="flex w-full md:w-auto overflow-x-auto space-x-1 bg-white p-1 rounded-xl shadow-sm border border-gray-100 no-scrollbar">
                                     <button
                                         onClick={() => setActiveSocialTab('youtube')}
-                                        className={`flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${activeSocialTab === 'youtube'
+                                        className={`flex-1 md:flex-none flex items-center justify-center px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 whitespace-nowrap ${activeSocialTab === 'youtube'
                                             ? 'bg-blue-600 text-white shadow-md'
                                             : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
                                             }`}
@@ -106,7 +106,7 @@ const MainPage = () => {
                                     </button>
                                     <button
                                         onClick={() => setActiveSocialTab('instagram')}
-                                        className={`flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${activeSocialTab === 'instagram'
+                                        className={`flex-1 md:flex-none flex items-center justify-center px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 whitespace-nowrap ${activeSocialTab === 'instagram'
                                             ? 'bg-blue-600 text-white shadow-md'
                                             : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
                                             }`}
@@ -116,7 +116,7 @@ const MainPage = () => {
                                     </button>
                                     <button
                                         onClick={() => setActiveSocialTab('homepage')}
-                                        className={`flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${activeSocialTab === 'homepage'
+                                        className={`flex-1 md:flex-none flex items-center justify-center px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 whitespace-nowrap ${activeSocialTab === 'homepage'
                                             ? 'bg-blue-600 text-white shadow-md'
                                             : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
                                             }`}
@@ -147,14 +147,14 @@ const MainPage = () => {
                 </section>
 
                 {/* Ongoing Events Section */}
-                <section className="bg-white py-16 border-t border-gray-100">
+                <section className="bg-white py-10 md:py-16 border-t border-gray-100">
                     <div className="max-w-[1200px] mx-auto px-6">
-                        <div className="flex justify-between items-end mb-8">
-                            <div className="flex items-baseline gap-4">
+                        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 md:mb-8 gap-4">
+                            <div className="flex flex-col md:flex-row md:items-baseline gap-2 md:gap-4">
                                 <h2 className="text-2xl font-bold text-gray-900">이벤트</h2>
-                                <p className="text-gray-600 hidden md:block">다양한 이벤트에 참여해보세요.</p>
+                                <p className="text-gray-600 md:block text-sm md:text-base">다양한 이벤트에 참여해보세요.</p>
                             </div>
-                            <Link to="/events" className="text-primary hover:underline font-medium">
+                            <Link to="/events" className="text-primary hover:underline font-medium text-sm md:text-base self-end md:self-auto">
                                 전체보기 →
                             </Link>
                         </div>

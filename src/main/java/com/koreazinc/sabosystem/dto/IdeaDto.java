@@ -60,4 +60,24 @@ public class IdeaDto {
         private IdeaStatus status;
         private String adminReply;
     }
+
+    @Getter
+    @NoArgsConstructor
+    public static class ListDto {
+        private Long ideaId;
+        private String title;
+        private String authorName;
+        private IdeaStatus status;
+        private String statusDescription;
+        private LocalDateTime createdAt;
+
+        public ListDto(Idea idea) {
+            this.ideaId = idea.getIdeaId();
+            this.title = idea.getTitle();
+            this.authorName = idea.getAuthor().getName();
+            this.status = idea.getStatus();
+            this.statusDescription = idea.getStatus().getDescription();
+            this.createdAt = idea.getCreatedAt();
+        }
+    }
 }

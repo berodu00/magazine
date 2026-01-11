@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { eventService } from '../../services/eventService';
 import api from '../../services/api';
+import ImageUploader from '../../components/common/ImageUploader';
 
 const EventManagePage = () => {
     const navigate = useNavigate();
@@ -15,8 +16,21 @@ const EventManagePage = () => {
     const [winners, setWinners] = useState([]);
     const [isDrawLoading, setIsDrawLoading] = useState(false);
     const [deleteConfirm, setDeleteConfirm] = useState({ show: false, eventId: null });
-    const [drawConfirm, setDrawConfirm] = useState(false);
-    const [announceConfirm, setAnnounceConfirm] = useState(false);
+
+    // Edit Modal State
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [editFormData, setEditFormData] = useState({
+        eventId: null,
+        title: '',
+        content: '',
+        thumbnailUrl: '',
+        startDate: '',
+        endDate: '',
+        winnerCount: 0,
+        winnerCount: 0,
+        location: '',
+        isActive: true
+    });
 
     useEffect(() => {
         fetchEvents();
@@ -136,15 +150,67 @@ const EventManagePage = () => {
         }
     };
 
+    // Edit Functions
+    const formatDateTimeLocal = (dateString) => {
+        if (!dateString) return '';
+        const date = new Date(dateString);
+        const pad = (num) => String(num).padStart(2, '0');
+        const year = date.getFullYear();
+        const month = pad(date.getMonth() + 1);
+        const day = pad(date.getDate());
+        const hours = pad(date.getHours());
+        const minutes = pad(date.getMinutes());
+        return `${year}-${month}-${day}T${hours}:${minutes}`;
+    };
+
+    const handleEditClick = (event) => {
+        setEditFormData({
+            eventId: event.eventId,
+            title: event.title,
+            content: event.content || '',
+            thumbnailUrl: event.thumbnailUrl || '',
+            startDate: formatDateTimeLocal(event.startDate),
+            endDate: formatDateTimeLocal(event.endDate),
+            winnerCount: event.winnerCount || 0,
+            winnerCount: event.winnerCount || 0,
+            location: event.location || '',
+            isActive: event.isActive
+        });
+        setIsEditModalOpen(true);
+    };
+
+    const handleEditChange = (e) => {
+        const { name, value } = e.target;
+        setEditFormData(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleEditSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const payload = {
+                ...editFormData,
+                startDate: editFormData.startDate + ':00', // Append seconds
+                endDate: editFormData.endDate + ':00'
+            };
+            await eventService.updateEvent(editFormData.eventId, payload);
+            alert('이벤트가 수정되었습니다.');
+            setIsEditModalOpen(false);
+            fetchEvents();
+        } catch (error) {
+            console.error(error);
+            alert('이벤트 수정에 실패했습니다.');
+        }
+    };
+
     return (
-        <div className="p-6">
+        <div>
             <div className="flex justify-between items-center mb-6">
                 <h1 className="text-2xl font-bold text-gray-800">이벤트 관리</h1>
                 <button
                     onClick={() => navigate('/admin/events/create')}
-                    className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-blue-700 transition-colors"
+                    className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200"
                 >
-                    이벤트 생성
+                    + 이벤트 생성
                 </button>
             </div>
 
@@ -165,15 +231,15 @@ const EventManagePage = () => {
                             <tr><td colSpan="4" className="px-6 py-4 text-center text-gray-500">등록된 이벤트가 없습니다.</td></tr>
                         ) : (
                             events.map(event => (
-                                <tr key={event.eventId} className="hover:bg-gray-50">
+                                <tr key={event.eventId} className="hover:bg-gray-50 transition-colors">
                                     <td className="px-6 py-4">
-                                        <div className="text-sm font-medium text-gray-900">{event.title}</div>
+                                        <div className="text-sm font-bold text-gray-900">{event.title}</div>
                                     </td>
                                     <td className="px-6 py-4 text-sm text-gray-500">
                                         {new Date(event.startDate).toLocaleDateString()} ~ {new Date(event.endDate).toLocaleDateString()}
                                     </td>
                                     <td className="px-6 py-4">
-                                        <span className={`px-2 py-1 text-xs rounded-full ${event.isActive ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'}`}>
+                                        <span className={`px-2 py-1 text-xs font-bold rounded-full ${event.isActive ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'}`}>
                                             {event.isActive ? '진행중' : '종료'}
                                         </span>
                                     </td>
@@ -181,13 +247,19 @@ const EventManagePage = () => {
                                         <div className="flex gap-2">
                                             <button
                                                 onClick={() => handleManage(event)}
-                                                className="px-3 py-1 bg-blue-100 text-blue-600 rounded-lg text-sm font-medium hover:bg-blue-200"
+                                                className="px-3 py-1 bg-blue-50 text-blue-600 rounded-lg text-sm font-bold hover:bg-blue-100 transition-colors"
                                             >
-                                                관리
+                                                참여자 관리
+                                            </button>
+                                            <button
+                                                onClick={() => handleEditClick(event)}
+                                                className="px-3 py-1 bg-gray-100 text-gray-700 rounded-lg text-sm font-bold hover:bg-gray-200 transition-colors"
+                                            >
+                                                수정
                                             </button>
                                             <button
                                                 onClick={() => confirmDelete(event.eventId)}
-                                                className="text-red-500 hover:text-red-700 text-sm font-medium px-2"
+                                                className="px-3 py-1 bg-red-50 text-red-600 rounded-lg text-sm font-bold hover:bg-red-100 transition-colors"
                                             >
                                                 삭제
                                             </button>
@@ -200,10 +272,10 @@ const EventManagePage = () => {
                 </table>
             </div>
 
-            {/* Manage Modal */}
+            {/* Manage Modal (Participants/Winners) */}
             {selectedEvent && (
-                <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-                    <div className="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl">
+                <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+                    <div className="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl animate-fade-in-up">
                         <div className="p-6 border-b border-gray-100 flex justify-between items-center sticky top-0 bg-white z-10">
                             <h2 className="text-xl font-bold text-gray-900">이벤트 관리: {selectedEvent.title}</h2>
                             <button onClick={closeManageModal} className="text-gray-400 hover:text-gray-600 text-2xl">&times;</button>
@@ -218,7 +290,7 @@ const EventManagePage = () => {
                                     </h3>
                                     <button
                                         onClick={handleDownloadCSV}
-                                        className="px-4 py-2 bg-green-50 text-green-700 border border-green-200 rounded-lg hover:bg-green-100 text-sm font-medium transition-colors"
+                                        className="px-4 py-2 bg-green-50 text-green-700 border border-green-200 rounded-lg hover:bg-green-100 text-sm font-bold transition-colors"
                                     >
                                         Excel 다운로드
                                     </button>
@@ -230,9 +302,9 @@ const EventManagePage = () => {
                                         <table className="w-full text-left">
                                             <thead>
                                                 <tr className="text-gray-500 border-b border-gray-200">
-                                                    <th className="pb-2">이름</th>
-                                                    <th className="pb-2">부서</th>
-                                                    <th className="pb-2">상태</th>
+                                                    <th className="pb-2 font-bold">이름</th>
+                                                    <th className="pb-2 font-bold">부서</th>
+                                                    <th className="pb-2 font-bold">상태</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -260,7 +332,7 @@ const EventManagePage = () => {
                                         <button
                                             onClick={handleDrawWinners}
                                             disabled={isDrawLoading || participants.length === 0}
-                                            className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 font-bold shadow-lg shadow-indigo-200"
+                                            className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 font-bold shadow-lg shadow-indigo-200 transition-colors"
                                         >
                                             {isDrawLoading ? '추첨 중...' : '추첨 시작'}
                                         </button>
@@ -272,7 +344,7 @@ const EventManagePage = () => {
                                         <h4 className="text-sm font-bold text-gray-500 mb-2 uppercase tracking-wide">당첨자 명단</h4>
                                         <div className="flex flex-wrap gap-2">
                                             {winners.map(w => (
-                                                <span key={w.participantId} className="px-3 py-1 bg-amber-100 text-amber-800 rounded-full text-sm font-medium border border-amber-200 flex items-center gap-1">
+                                                <span key={w.participantId} className="px-3 py-1 bg-amber-100 text-amber-800 rounded-full text-sm font-bold border border-amber-200 flex items-center gap-1">
                                                     👑 {w.userName}
                                                 </span>
                                             ))}
@@ -292,12 +364,123 @@ const EventManagePage = () => {
                                 />
                                 <button
                                     onClick={handleAnnounce}
-                                    className="w-full py-3 bg-gray-900 text-white rounded-xl font-bold hover:bg-black transition-colors"
+                                    className="w-full py-3 bg-gray-900 text-white rounded-xl font-bold hover:bg-black transition-colors shadow-lg"
                                 >
                                     발표하기 ({selectedEvent.winnersAnnounced ? '수정' : '작성'})
                                 </button>
                             </section>
                         </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Edit Modal */}
+            {isEditModalOpen && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+                    <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+                        <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50">
+                            <h2 className="text-xl font-bold text-gray-900">이벤트 수정</h2>
+                            <button onClick={() => setIsEditModalOpen(false)} className="text-gray-400 hover:text-gray-600">✕</button>
+                        </div>
+
+                        <form onSubmit={handleEditSubmit} className="p-6 space-y-6">
+                            <div className="space-y-2">
+                                <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider">이벤트 제목 *</label>
+                                <input
+                                    type="text"
+                                    name="title"
+                                    value={editFormData.title}
+                                    onChange={handleEditChange}
+                                    required
+                                    className="block w-full h-12 rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors px-4 text-base"
+                                />
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="space-y-2">
+                                    <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider">시작 일시 *</label>
+                                    <input
+                                        type="datetime-local"
+                                        name="startDate"
+                                        value={editFormData.startDate}
+                                        onChange={handleEditChange}
+                                        required
+                                        className="block w-full h-12 rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors px-4 text-base"
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider">종료 일시 *</label>
+                                    <input
+                                        type="datetime-local"
+                                        name="endDate"
+                                        value={editFormData.endDate}
+                                        onChange={handleEditChange}
+                                        required
+                                        className="block w-full h-12 rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors px-4 text-base"
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="space-y-2">
+                                    <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider">당첨자 수</label>
+                                    <input
+                                        type="number"
+                                        name="winnerCount"
+                                        value={editFormData.winnerCount}
+                                        onChange={handleEditChange}
+                                        min="0"
+                                        className="block w-full h-12 rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors px-4 text-base"
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider">장소/방법</label>
+                                    <input
+                                        type="text"
+                                        name="location"
+                                        value={editFormData.location}
+                                        onChange={handleEditChange}
+                                        className="block w-full h-12 rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors px-4 text-base"
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="space-y-2">
+                                <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider">썸네일 이미지 *</label>
+                                <ImageUploader
+                                    currentImage={editFormData.thumbnailUrl}
+                                    onUploadSuccess={(fileData) => setEditFormData(prev => ({ ...prev, thumbnailUrl: fileData.url }))}
+                                    category="events"
+                                />
+                            </div>
+
+                            <div className="space-y-2">
+                                <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider">내용 (HTML 지원)</label>
+                                <textarea
+                                    name="content"
+                                    value={editFormData.content}
+                                    onChange={handleEditChange}
+                                    className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors p-4 text-base h-40"
+                                    placeholder="이벤트 내용을 입력해주세요."
+                                />
+                            </div>
+
+                            <div className="flex justify-end gap-3 pt-4 border-t border-gray-100">
+                                <button
+                                    type="button"
+                                    onClick={() => setIsEditModalOpen(false)}
+                                    className="px-5 py-2.5 text-gray-600 font-medium hover:bg-gray-100 rounded-lg transition-colors h-11"
+                                >
+                                    취소
+                                </button>
+                                <button
+                                    type="submit"
+                                    className="px-5 py-2.5 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition-colors shadow-lg shadow-blue-100 h-11"
+                                >
+                                    수정 완료
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             )}

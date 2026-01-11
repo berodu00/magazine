@@ -89,8 +89,8 @@ const RollingBanner = () => {
                             className="w-full h-full object-cover opacity-80"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-center justify-center">
-                            <div className="text-center text-white px-4">
-                                <h2 className="text-4xl md:text-5xl font-bold mb-4 drop-shadow-lg animate-fade-in-up">
+                            <div className="text-center text-white px-4 w-full max-w-[90%] mx-auto">
+                                <h2 className="text-2xl md:text-5xl lg:text-6xl font-bold mb-3 md:mb-6 drop-shadow-lg animate-fade-in-up leading-tight">
                                     {banner.title}
                                 </h2>
                                 {banner.linkUrl && (
@@ -98,7 +98,7 @@ const RollingBanner = () => {
                                         href={banner.linkUrl}
                                         target={banner.linkUrl.startsWith('http') ? '_blank' : '_self'}
                                         rel="noreferrer"
-                                        className="inline-block px-8 py-3 bg-white/20 hover:bg-white/30 backdrop-blur-sm border border-white/50 rounded-full font-semibold transition-all mt-4"
+                                        className="inline-block px-5 py-2 md:px-8 md:py-3 text-sm md:text-base bg-white/20 hover:bg-white/30 backdrop-blur-sm border border-white/50 rounded-full font-semibold transition-all mt-2 md:mt-4"
                                     >
                                         자세히 보기
                                     </a>
@@ -109,12 +109,12 @@ const RollingBanner = () => {
                 ))}
             </div>
 
-            {/* Navigation Buttons (Show on hover) */}
+            {/* Navigation Buttons (Show on hover, hidden on mobile) */}
             {banners.length > 1 && (
                 <>
                     <button
                         onClick={prevSlide}
-                        className="absolute left-4 top-1/2 -translate-y-1/2 p-2 bg-black/30 hover:bg-black/50 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                        className="hidden md:block absolute left-4 top-1/2 -translate-y-1/2 p-2 bg-black/30 hover:bg-black/50 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
                     >
                         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
@@ -122,7 +122,7 @@ const RollingBanner = () => {
                     </button>
                     <button
                         onClick={nextSlide}
-                        className="absolute right-4 top-1/2 -translate-y-1/2 p-2 bg-black/30 hover:bg-black/50 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                        className="hidden md:block absolute right-4 top-1/2 -translate-y-1/2 p-2 bg-black/30 hover:bg-black/50 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
                     >
                         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />

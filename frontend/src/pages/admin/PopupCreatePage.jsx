@@ -51,77 +51,77 @@ const PopupCreatePage = () => {
     };
 
     return (
-        <div className="p-6 max-w-4xl mx-auto">
-            <div className="flex justify-between items-center mb-6">
-                <h1 className="text-2xl font-bold text-gray-800">팝업 생성</h1>
+        <div className="max-w-4xl mx-auto space-y-8 p-4 md:p-0">
+            <div className="flex justify-between items-center">
+                <h1 className="text-3xl font-bold text-gray-900">팝업 생성</h1>
             </div>
 
-            <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-sm border border-gray-100 p-8 space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="md:col-span-2">
-                        <label className="block text-sm font-medium text-gray-700 mb-2">제목 *</label>
+            <form onSubmit={handleSubmit} className="bg-white p-6 md:p-8 rounded-xl shadow-lg space-y-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="md:col-span-2 space-y-2">
+                        <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider">팝업 제목 *</label>
                         <input
                             type="text"
                             name="title"
                             value={formData.title}
                             onChange={handleInputChange}
                             required
-                            className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                            className="block w-full h-12 rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors px-4 text-lg"
                         />
                     </div>
 
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">유형</label>
+                    <div className="space-y-2">
+                        <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider">유형</label>
                         <select
                             name="popupType"
                             value={formData.popupType}
                             onChange={handleInputChange}
-                            className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                            className="block w-full h-12 rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors px-4 bg-white"
                         >
                             <option value="IMAGE">이미지형</option>
                             <option value="TEXT">텍스트형</option>
                         </select>
                     </div>
 
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">정렬 순서</label>
+                    <div className="space-y-2">
+                        <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider">정렬 순서</label>
                         <input
                             type="number"
                             name="displayOrder"
                             value={formData.displayOrder}
                             onChange={handleInputChange}
-                            className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                            className="block w-full h-12 rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors px-4 text-base"
                         />
                     </div>
 
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">시작일시 *</label>
+                    <div className="space-y-2">
+                        <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider">시작일시 *</label>
                         <input
                             type="datetime-local"
                             name="startDate"
                             value={formData.startDate}
                             onChange={handleInputChange}
                             required
-                            className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                            className="block w-full h-12 rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors px-4 text-base"
                         />
                     </div>
 
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">종료일시 *</label>
+                    <div className="space-y-2">
+                        <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider">종료일시 *</label>
                         <input
                             type="datetime-local"
                             name="endDate"
                             value={formData.endDate}
                             onChange={handleInputChange}
                             required
-                            className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                            className="block w-full h-12 rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors px-4 text-base"
                         />
                     </div>
                 </div>
 
                 {formData.popupType === 'IMAGE' ? (
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">팝업 이미지 *</label>
+                    <div className="space-y-2">
+                        <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider">팝업 이미지 *</label>
                         <ImageUploader
                             currentImage={formData.imageUrl}
                             onUploadSuccess={handleImageUpload}
@@ -129,53 +129,57 @@ const PopupCreatePage = () => {
                         />
                     </div>
                 ) : (
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">팝업 내용</label>
-                        <HtmlEditor
-                            value={formData.content}
-                            onChange={handleEditorChange}
-                        />
+                    <div className="space-y-2">
+                        <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider">팝업 내용</label>
+                        <div className="border border-gray-200 rounded-xl overflow-hidden">
+                            <HtmlEditor
+                                value={formData.content}
+                                onChange={handleEditorChange}
+                            />
+                        </div>
                     </div>
                 )}
 
-                <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">링크 URL (클릭 시 이동)</label>
+                <div className="space-y-2">
+                    <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider">링크 URL (클릭 시 이동)</label>
                     <input
                         type="text"
                         name="linkUrl"
                         value={formData.linkUrl || ''}
                         onChange={handleInputChange}
                         placeholder="https://..."
-                        className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                        className="block w-full h-12 rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-colors px-4 text-base"
                     />
                 </div>
 
-                <div className="flex items-center">
+                <div className="flex items-center p-4 border border-gray-200 rounded-lg bg-gray-50">
                     <input
                         type="checkbox"
                         name="isActive"
                         checked={formData.isActive}
                         onChange={handleInputChange}
-                        className="w-5 h-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+                        className="w-5 h-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500 cursor-pointer"
                         id="isActive"
                     />
-                    <label htmlFor="isActive" className="ml-2 text-sm text-gray-700">활성 상태 (체크 시 즉시 표시됨)</label>
+                    <label htmlFor="isActive" className="ml-3 text-sm font-bold text-gray-700 cursor-pointer select-none">
+                        활성 상태 (체크 시 즉시 표시됨)
+                    </label>
                 </div>
 
-                <div className="flex justify-end gap-3 pt-4 border-t border-gray-100">
+                <div className="flex items-center justify-end space-x-4 pt-6 border-t border-gray-100">
                     <button
                         type="button"
                         onClick={() => navigate('/admin/popups')}
-                        className="px-6 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+                        className="px-6 py-3 border border-gray-300 rounded-lg shadow-sm text-sm font-semibold text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all h-12"
                     >
                         취소
                     </button>
                     <button
                         type="submit"
                         disabled={submitting}
-                        className="px-6 py-2 bg-primary text-white rounded-lg hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200 disabled:opacity-50"
+                        className="px-6 py-3 border border-transparent rounded-lg shadow-md text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all hover:shadow-lg h-12 min-w-[120px]"
                     >
-                        {submitting ? '생성 중...' : '팝업 생성'}
+                        {submitting ? '처리 중...' : '팝업 생성'}
                     </button>
                 </div>
             </form>

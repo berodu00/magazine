@@ -20,7 +20,11 @@ public class PopupDto {
         private String linkUrl;
         private Integer displayOrder;
         private Boolean isActive;
+
+        @com.fasterxml.jackson.annotation.JsonFormat(shape = com.fasterxml.jackson.annotation.JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm")
         private LocalDateTime startDate;
+
+        @com.fasterxml.jackson.annotation.JsonFormat(shape = com.fasterxml.jackson.annotation.JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm")
         private LocalDateTime endDate;
 
         @Builder

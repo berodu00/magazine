@@ -13,6 +13,9 @@ public interface IdeaRepository extends JpaRepository<Idea, Long> {
     // Find ideas by status
     Page<Idea> findByStatus(IdeaStatus status, Pageable pageable);
 
+    // Count ideas by status
+    long countByStatus(IdeaStatus status);
+
     // Find ideas by user
     Page<Idea> findByAuthor_UserId(Long userId, Pageable pageable);
 }
