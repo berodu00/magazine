@@ -32,7 +32,7 @@ const AdminLayout = () => {
                 <div className="p-4 lg:p-6 text-xl font-bold border-b border-slate-800 flex justify-between items-center bg-slate-900 sticky top-0 z-30">
                     <div className="flex items-center space-x-2">
                         <span className="text-blue-500">⚡</span>
-                        <span>Sabo Admin</span>
+                        <span>관리자 메뉴</span>
                     </div>
                 </div>
                 <nav className="flex-1 overflow-x-auto lg:overflow-x-hidden lg:overflow-y-auto flex flex-row lg:flex-col p-2 lg:p-0 lg:mt-4 space-x-2 lg:space-x-0 space-y-0 text-sm lg:text-base whitespace-nowrap scrollbar-hide">
