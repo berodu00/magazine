@@ -17,7 +17,7 @@ const ArticleList = ({ articles, className = "grid grid-cols-1 md:grid-cols-2 lg
     return (
         <div className={className}>
             {displayArticles.map((article) => (
-                <div key={article.articleId} className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow overflow-hidden border border-gray-100 group cursor-pointer">
+                <div key={article.articleId} className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow overflow-hidden border border-gray-100 group cursor-pointer">
                     <Link to={`/articles/${article.articleId}`}>
                         <div className="aspect-video bg-secondary-light relative">
                             {article.thumbnailUrl ? (

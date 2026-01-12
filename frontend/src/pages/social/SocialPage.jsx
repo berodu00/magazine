@@ -51,27 +51,27 @@ const SocialPage = () => {
             <Header />
 
             <main className="max-w-[1200px] mx-auto px-6 py-12 flex-1 w-full">
-                {/* Header */}
-                <div className="mb-8 flex items-baseline gap-4">
-                    <h1 className="text-3xl font-bold text-gray-900">소셜 허브</h1>
+                {/* Header Section - Left Aligned */}
+                <div className="mb-10 text-left border-b border-gray-100 pb-8">
+                    <h1 className="text-3xl font-bold text-gray-900 mb-2">소셜 허브</h1>
                     <p className="text-gray-600">고려아연의 최신 소셜 미디어 소식과 보도자료를 확인하세요.</p>
                 </div>
 
                 {/* Tabs */}
-                <div className="flex space-x-1 bg-white p-1 rounded-xl shadow-sm w-fit mb-8 border border-gray-100">
+                <div className="flex space-x-2 mb-8 overflow-x-auto pb-2">
                     {tabs.map((tab) => (
                         <button
                             key={tab.id}
                             onClick={() => setActiveTab(tab.id)}
                             className={`
-                                flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200
+                                flex items-center px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-200 whitespace-nowrap
                                 ${activeTab === tab.id
-                                    ? 'bg-blue-600 text-white shadow-md'
-                                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                                    ? 'bg-gray-900 text-white shadow-md'
+                                    : 'bg-white text-gray-600 border border-gray-200 hover:border-gray-400 hover:text-gray-900'
                                 }
                             `}
                         >
-                            <span className="mr-2">{tab.icon}</span>
+                            <span className="mr-2 opacity-80">{tab.icon}</span>
                             {tab.label}
                         </button>
                     ))}

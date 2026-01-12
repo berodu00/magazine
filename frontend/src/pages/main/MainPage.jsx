@@ -93,39 +93,39 @@ const MainPage = () => {
 
                             <div className="flex flex-col md:flex-row items-end md:items-center gap-4 w-full md:w-auto">
                                 {/* Tabs */}
-                                <div className="flex w-full md:w-auto overflow-x-auto space-x-1 bg-white p-1 rounded-xl shadow-sm border border-gray-100 no-scrollbar">
+                                <div className="flex w-full md:w-auto overflow-x-auto space-x-2 pb-2 md:pb-0 no-scrollbar">
                                     <button
                                         onClick={() => setActiveSocialTab('youtube')}
-                                        className={`flex-1 md:flex-none flex items-center justify-center px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 whitespace-nowrap ${activeSocialTab === 'youtube'
-                                            ? 'bg-blue-600 text-white shadow-md'
-                                            : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                                        className={`flex-none flex items-center justify-center px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 whitespace-nowrap ${activeSocialTab === 'youtube'
+                                            ? 'bg-gray-900 text-white shadow-md'
+                                            : 'bg-white text-gray-600 border border-gray-200 hover:border-gray-400 hover:text-gray-900'
                                             }`}
                                     >
-                                        <span className="mr-2">▶</span>
+                                        <span className="mr-2 opacity-80">▶</span>
                                         YouTube
                                     </button>
                                     <button
                                         onClick={() => setActiveSocialTab('instagram')}
-                                        className={`flex-1 md:flex-none flex items-center justify-center px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 whitespace-nowrap ${activeSocialTab === 'instagram'
-                                            ? 'bg-blue-600 text-white shadow-md'
-                                            : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                                        className={`flex-none flex items-center justify-center px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 whitespace-nowrap ${activeSocialTab === 'instagram'
+                                            ? 'bg-gray-900 text-white shadow-md'
+                                            : 'bg-white text-gray-600 border border-gray-200 hover:border-gray-400 hover:text-gray-900'
                                             }`}
                                     >
-                                        <span className="mr-2">📷</span>
+                                        <span className="mr-2 opacity-80">📷</span>
                                         Instagram
                                     </button>
                                     <button
                                         onClick={() => setActiveSocialTab('homepage')}
-                                        className={`flex-1 md:flex-none flex items-center justify-center px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 whitespace-nowrap ${activeSocialTab === 'homepage'
-                                            ? 'bg-blue-600 text-white shadow-md'
-                                            : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                                        className={`flex-none flex items-center justify-center px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 whitespace-nowrap ${activeSocialTab === 'homepage'
+                                            ? 'bg-gray-900 text-white shadow-md'
+                                            : 'bg-white text-gray-600 border border-gray-200 hover:border-gray-400 hover:text-gray-900'
                                             }`}
                                     >
-                                        <span className="mr-2">📰</span>
+                                        <span className="mr-2 opacity-80">📰</span>
                                         최신 소식
                                     </button>
                                 </div>
-                                <Link to="/social" className="text-primary hover:underline font-medium text-sm hidden md:block">
+                                <Link to="/social" className="text-primary hover:underline font-medium text-sm hidden md:block whitespace-nowrap">
                                     전체보기 →
                                 </Link>
                             </div>
@@ -161,7 +161,7 @@ const MainPage = () => {
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                             {recentEvents.length > 0 ? (
                                 recentEvents.map((event) => (
-                                    <Link key={event.eventId} to={`/events/${event.eventId}`} className="group block bg-white rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 border border-gray-100">
+                                    <Link key={event.eventId} to={`/events/${event.eventId}`} className="group block bg-white rounded-2xl overflow-hidden hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col h-full">
                                         <div className="aspect-[16/9] bg-gray-100 relative overflow-hidden">
                                             {event.thumbnailUrl ? (
                                                 <img
@@ -174,31 +174,26 @@ const MainPage = () => {
                                                     Event Image
                                                 </div>
                                             )}
-                                            <div className="absolute top-4 right-4 bg-primary text-white px-3 py-1 rounded-lg text-xs font-bold shadow-md">
+                                            <div className={`absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-bold shadow-md ${event.isActive ? 'bg-blue-600 text-white' : 'bg-gray-500 text-white'}`}>
                                                 {event.isActive ? '진행중' : '종료됨'}
                                             </div>
                                         </div>
-                                        <div className="p-6">
-                                            <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-primary transition-colors line-clamp-1">
+                                        <div className="p-6 flex flex-col flex-1">
+                                            <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-primary transition-colors line-clamp-2">
                                                 {event.title}
                                             </h3>
-                                            <p className="text-gray-600 line-clamp-2 mb-4 text-sm">
+                                            <p className="text-gray-600 line-clamp-2 mb-4 text-sm flex-1">
                                                 {event.content?.replace(/<[^>]*>/g, '') || '이벤트 내용이 없습니다.'}
                                             </p>
-                                            <div className="space-y-2">
+                                            <div className="space-y-2 pt-4 border-t border-gray-50 mt-auto">
                                                 <div className="flex items-center gap-2 text-sm text-gray-500">
-                                                    <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                                    </svg>
+                                                    <span>📅</span>
                                                     <span>
                                                         {new Date(event.startDate).toLocaleDateString()} ~ {new Date(event.endDate).toLocaleDateString()}
                                                     </span>
                                                 </div>
                                                 <div className="flex items-center gap-2 text-sm text-gray-500">
-                                                    <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                                    </svg>
+                                                    <span>📍</span>
                                                     <span>{event.location || '온라인'}</span>
                                                 </div>
                                             </div>
