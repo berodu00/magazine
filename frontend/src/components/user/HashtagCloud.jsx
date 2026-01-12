@@ -41,19 +41,17 @@ const HashtagCloud = () => {
     };
 
     return (
-        <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex items-center gap-4">
-            <span className="text-gray-900 font-bold whitespace-nowrap">인기 키워드</span>
-            <div className="flex flex-wrap gap-2">
-                {hashtags.map(hashtag => (
-                    <button
-                        key={hashtag.hashtagId}
-                        onClick={() => handleTagClick(hashtag.tagName)}
-                        className={`text-gray-500 hover:text-blue-600 hover:underline transition-colors text-sm`}
-                    >
-                        #{hashtag.tagName}
-                    </button>
-                ))}
-            </div>
+        <div className="flex flex-wrap items-center gap-3">
+            <span className="text-gray-900 font-bold text-sm whitespace-nowrap mr-1">인기 키워드</span>
+            {hashtags.map(hashtag => (
+                <button
+                    key={hashtag.hashtagId}
+                    onClick={() => handleTagClick(hashtag.tagName)}
+                    className="px-3 py-1.5 bg-gray-50 hover:bg-gray-100 rounded-full text-xs font-medium text-gray-600 transition-colors"
+                >
+                    #{hashtag.tagName}
+                </button>
+            ))}
         </div>
     );
 };

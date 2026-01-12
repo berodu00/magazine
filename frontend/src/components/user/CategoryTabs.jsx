@@ -16,10 +16,10 @@ const CategoryTabs = ({ categories, activeCategory, onCategoryChange }) => {
                     key={category.categoryId || 'all'}
                     onClick={() => onCategoryChange(category.categoryId)}
                     className={`
-                        px-6 py-3 font-medium text-sm transition-all relative top-[2px] border-b-[3px]
+                        px-4 py-2.5 font-medium text-sm transition-all relative top-[1px] border-b-[2px]
                         ${(activeCategory === category.categoryId)
-                            ? 'text-primary border-primary'
-                            : 'text-secondary-medium border-transparent hover:text-primary'}
+                            ? 'text-gray-900 border-gray-900'
+                            : 'text-gray-500 border-transparent hover:text-gray-700'}
                     `}
                 >
                     {category.name}

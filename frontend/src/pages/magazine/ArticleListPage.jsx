@@ -56,9 +56,9 @@ const ArticleListPage = () => {
             <Header />
 
             <main className="max-w-[1200px] mx-auto px-6 py-12 flex-1 w-full">
-                <div className="mb-8 flex items-baseline gap-4">
+                <div className="mb-10 border-b border-gray-100 pb-8 flex flex-col md:flex-row md:items-end gap-2 md:gap-4">
                     <h1 className="text-3xl font-bold text-gray-900">웹진</h1>
-                    <p className="text-gray-600">고려아연의 다양한 이야기를 전해드립니다.</p>
+                    <p className="text-gray-600 md:pb-1">고려아연의 다양한 이야기를 전해드립니다.</p>
                 </div>
 
                 <CategoryTabs
@@ -82,7 +82,7 @@ const ArticleListPage = () => {
                     </div>
                 )}
 
-                <div className="mb-12">
+                <div className="mb-8">
                     <HashtagCloud />
                 </div>
 

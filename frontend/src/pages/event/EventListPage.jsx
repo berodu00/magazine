@@ -33,9 +33,9 @@ const EventListPage = () => {
 
             <main className="max-w-[1200px] mx-auto px-6 py-12 flex-1 w-full">
                 {/* Header Section - Left Aligned */}
-                <div className="mb-10 text-left border-b border-gray-100 pb-8">
-                    <h1 className="text-3xl font-bold text-gray-900 mb-2">Event</h1>
-                    <p className="text-gray-600">진행 중인 다양한 이벤트에 참여해보세요.</p>
+                <div className="mb-10 border-b border-gray-100 pb-8 flex flex-col md:flex-row md:items-end gap-2 md:gap-4">
+                    <h1 className="text-3xl font-bold text-gray-900">Event</h1>
+                    <p className="text-gray-600 md:pb-1">진행 중인 다양한 이벤트에 참여해보세요.</p>
                 </div>
 
                 {loading ? (
